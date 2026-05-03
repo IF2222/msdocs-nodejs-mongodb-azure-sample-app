@@ -62,4 +62,14 @@ jobs:
           app-name: 'ha2-todo-web-app'
           slot-name: 'Production'
           package: .
+
+      - name: 'Upload Static Assets to Blob Storage'
+        uses: azure/CLI@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az storage blob upload-batch --account-name ha2storage --auth-mode key -d public -s ./public --overwrite true
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+      
           
